@@ -1,7 +1,7 @@
 import grpc
 from concurrent import futures
-import recommender_pb2, recommender_pb2_grpc
-from recommender import recommend  # 추천 로직만 import
+from . import recommender_pb2, recommender_pb2_grpc
+from .recommender import recommend  # 추천 로직만 import
 
 class RecommenderServicer(recommender_pb2_grpc.RecommenderServicer):
     def Recommend(self, request, context):
