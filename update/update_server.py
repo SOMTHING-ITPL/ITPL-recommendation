@@ -1,10 +1,11 @@
 import grpc
 from concurrent import futures
-import update_pb2, update_pb2_grpc
-from update import update_concerts  
+from . import update_pb2, update_pb2_grpc   
+from .update import update_concerts    
 
 class ConcertUpdaterServicer(update_pb2_grpc.ConcertUpdaterServicer):
     def UpdateConcerts(self, request, context):
+        print("update concert is accepted")
         concerts_to_add = []
         for c in request.concerts:
             concerts_to_add.append({
@@ -16,6 +17,8 @@ class ConcertUpdaterServicer(update_pb2_grpc.ConcertUpdaterServicer):
                 "updated_at": c.updated_at
             })
         update_concerts(concerts_to_add)
+        print("success!")
+
         return update_pb2.UpdateResponse(success=True, message="Update completed")
 
 def serve():

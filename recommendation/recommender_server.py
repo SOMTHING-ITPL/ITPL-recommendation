@@ -5,6 +5,7 @@ from recommender import recommend  # 추천 로직만 import
 
 class RecommenderServicer(recommender_pb2_grpc.RecommenderServicer):
     def Recommend(self, request, context):
+        print("request is accepted")
         user_genres = list(request.genres)
         user_artists = list(request.artists)
         user_fav_ids = list(request.fav_ids)
@@ -13,6 +14,8 @@ class RecommenderServicer(recommender_pb2_grpc.RecommenderServicer):
         recs = recommend(user_genres, user_artists, user_fav_ids, topk)
         # gRPC 메시지 변환
         results = [recommender_pb2.Concert(id=r["id"], name=r["name"], score=r["score"]) for r in recs]
+        print(results)
+        print("done")
         return recommender_pb2.RecommendResponse(concerts=results)
 
 def serve():
